@@ -3,19 +3,15 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:gravity="center"
+    android:background="#FFF"
     >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
-    
-    <com.dajodi.clock.ui.FlipClock 
-		android:layout_alignParentRight="true"
-		android:layout_alignParentTop="true" 
-		android:id="@+id/cwClock" 
+
+	
+    <com.dajodi.clock.ui.FlipCountDown
+        
+        android:id="@+id/cwClock" 
 		android:layout_height="wrap_content" 
-		android:layout_width="wrap_content">
-	</com.dajodi.clock.ui.FlipClock>
+		android:layout_width="wrap_content" />
 			
 </LinearLayout>

@@ -9,21 +9,24 @@ ORIGINAL_DIGIT_HEIGHT=39
 ANIMATION_SPEED=80
 
 ## 0 here indicates no resize
-HDPI_HEIGHT=0
-MDPI_HEIGHT=0
-LDPI_HEIGHT=0
+XHDPI_HEIGHT=39
+HDPI_HEIGHT=26
+MDPI_HEIGHT=19
+LDPI_HEIGHT=15
 
 resieAndCopy()
 {
  FILE=$1
  NAME=$2
 # if ( ("$HDPI_HEIGHT" -ne "0") && ("$MDPI_HEIGHT" -ne 0) && ("$LDPI_HEIGHT" -ne 0))
- if [ "$HDPI_HEIGHT" -gt "0" ] && [ "$MDPI_HEIGHT" -gt "0" ] && [ "$LDPI_HEIGHT" -gt "0" ]
+ if [ "$XHDPI_HEIGHT" -gt "0" ] && [ "$HDPI_HEIGHT" -gt "0" ] && [ "$MDPI_HEIGHT" -gt "0" ] && [ "$LDPI_HEIGHT" -gt "0" ]
  then
+   convert $FILE -resize x${XHDPI_HEIGHT}  generated/drawable-xhdpi/${NAME}
    convert $FILE -resize x${HDPI_HEIGHT}  generated/drawable-hdpi/${NAME}
    convert $FILE -resize x${MDPI_HEIGHT}  generated/drawable-mdpi/${NAME}
    convert $FILE -resize x${LDPI_HEIGHT}  generated/drawable-ldpi/${NAME}
  else
+   cp $FILE generated/drawable-xhdpi/${NAME}
    cp $FILE generated/drawable-hdpi/${NAME}
    cp $FILE generated/drawable-mdpi/${NAME}
    cp $FILE generated/drawable-ldpi/${NAME}
@@ -65,11 +68,13 @@ writeIntegers()
 
 writeDimens()
 {
-  if [ "$HDPI_HEIGHT" -gt "0" ] && [ "$MDPI_HEIGHT" -gt "0" ] && [ "$LDPI_HEIGHT" -gt "0" ]
+  if [ "$XHDPI_HEIGHT" -gt "0" ] && [ "$HDPI_HEIGHT" -gt "0" ] && [ "$MDPI_HEIGHT" -gt "0" ] && [ "$LDPI_HEIGHT" -gt "0" ]
   then
+    mkdir_safe generated/values-xhdpi
     mkdir_safe generated/values-hdpi
     mkdir_safe generated/values-mdpi
     mkdir_safe generated/values-ldpi
+    writeDimenFile generated/values-xhdpi/dimens.xml $XHDPI_HEIGHT
     writeDimenFile generated/values-hdpi/dimens.xml $HDPI_HEIGHT
     writeDimenFile generated/values-mdpi/dimens.xml $MDPI_HEIGHT
     writeDimenFile generated/values-ldpi/dimens.xml $LDPI_HEIGHT
@@ -85,6 +90,7 @@ mkdir generated
 mkdir generated/drawable-ldpi
 mkdir generated/drawable-mdpi
 mkdir generated/drawable-hdpi
+mkdir generated/drawable-xhdpi
 
 convert digits-top.png -crop 159x${ORIGINAL_DIGIT_HEIGHT} tmp_%d.png
 
@@ -197,27 +203,27 @@ FROM=0
 TO=1
 mkdir generated/drawable
 mkdir generated/anim
-writexml 0 1
-writexml 1 2
-writexml 2 3
-writexml 3 4
-writexml 4 5
-writexml 5 6
-writexml 6 7
-writexml 7 8
-writexml 8 9
-writexml 9 0
+writexml 0 9
+writexml 9 8
+writexml 8 7
+writexml 7 6
+writexml 6 5
+writexml 5 4
+writexml 4 3
+writexml 3 2
+writexml 2 1
+writexml 1 0
 
 # 59 -> 00 (minute)
-writexml 5 0
+writexml 0 5
 
 # 23 -> 00 (hour)
-writexml 2 0
-writexml 3 0
+#writexml 2 0
+#writexml 3 0
 
 # 12 -> 01 (hour)
-writexml 1 0
-writexml 2 1
+#writexml 1 0
+#writexml 2 1
 
 writeIntegers
 writeDimens
